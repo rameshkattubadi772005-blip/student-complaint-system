@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentCare Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 900px;
+            max-width: 100%;
+            min-height: 520px;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        }
+
+        .left {
+            width: 48%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .left h1 {
+            font-size: 36px;
+            margin-bottom: 18px;
+        }
+
+        .left p {
+            font-size: 16px;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        .right {
+            width: 52%;
+            padding: 55px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right h2 {
+            font-size: 30px;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #334155;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 22px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+        .admin-note {
+            margin-top: 25px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left,
+            .right {
+                width: 100%;
+            }
+
+            .left {
+                padding: 35px;
+            }
+
+            .right {
+                padding: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <div class="logo">StudentCare</div>
+
+        <h1>Student Complaint Portal</h1>
+
+        <p>
+            Submit, track and manage your complaints easily.
+            StudentCare helps ensure that every complaint reaches
+            the appropriate department and is handled according
+            to its priority.
+        </p>
+    </div>
+
+    <div class="right">
+
+        <h2>Welcome Back</h2>
+
+        <div class="subtitle">
+            Login to continue to StudentCare.
+        </div>
+
+        <form action="/login" method="POST">
+
+            <label for="role">Login As</label>
+
+            <select id="role" name="role" required>
+                <option value="student">Student</option>
+                <option value="admin">Trainer / Admin</option>
+            </select>
+
+            <label for="username">Student ID / Username</label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your Student ID"
+                required
+            >
+
+            <label for="password">Password</label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <div class="register">
+            New student?
+            <a href="/register">Create an account</a>
+        </div>
+
+        <div class="admin-note">
+            Existing students can use their registered Student ID
+            and password.
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

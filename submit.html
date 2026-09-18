@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Submit Complaint - StudentCare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .header {
+            background: #0f172a;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .portal {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #64748b;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .header {
+                padding: 18px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">StudentCare</div>
+        <div class="portal">Student Portal</div>
+    </header>
+
+    <main class="container">
+
+        <div class="card">
+
+            <h1>Submit a Complaint</h1>
+
+            <p class="description">
+                Please provide the details of your complaint.
+                The system will automatically calculate its priority
+                based on the complaint type and number of affected students.
+            </p>
+
+            <form action="/submit" method="POST">
+
+                <div class="row">
+
+                    <div class="form-group">
+                        <label for="studentId">
+                            Student ID <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="studentId"
+                            name="studentId"
+                            placeholder="Example: STU001"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="name">
+                            Student Name <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="form-group">
+                        <label for="department">
+                            Department <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="department"
+                            name="department"
+                            placeholder="Example: CSM"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="affected">
+                            Number of Students Affected
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="affected"
+                            name="affected"
+                            min="1"
+                            placeholder="Example: 25"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaintType">
+                        Complaint Type <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="complaintType"
+                        name="complaintType"
+                        required
+                    >
+
+                        <option value="">
+                            Select complaint type
+                        </option>
+
+                        <option value="Academic">
+                            Academic
+                        </option>
+
+                        <option value="Infrastructure">
+                            Infrastructure
+                        </option>
+
+                        <option value="Health">
+                            Health
+                        </option>
+
+                        <option value="Safety">
+                            Safety
+                        </option>
+
+                        <option value="Administrative">
+                            Administrative
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaint">
+                        Complaint Description
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="complaint"
+                        name="complaint"
+                        placeholder="Describe your complaint clearly..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Submit Complaint
+                </button>
+
+            </form>
+
+
+            <a href="/" class="back">
+                ← Back to Student Portal
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Complaint - StudentCare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .header {
+            background: #0f172a;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .portal {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        .icon {
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .example {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+            .card {
+                padding: 25px;
+            }
+
+            .header {
+                padding: 18px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">StudentCare</div>
+        <div class="portal">Student Portal</div>
+    </header>
+
+
+    <main class="container">
+
+        <div class="card">
+
+            <div class="icon">🔍</div>
+
+            <h1>Track Your Complaint</h1>
+
+            <p class="description">
+                Enter your complaint ID to view the current status,
+                priority, assigned staff, resolution information,
+                and complaint history.
+            </p>
+
+
+            <form action="/track" method="POST">
+
+                <div class="form-group">
+
+                    <label for="complaintId">
+                        Complaint ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="complaintId"
+                        name="complaintId"
+                        placeholder="Example: C1"
+                        required
+                    >
+
+                    <div class="example">
+                        Your complaint ID was shown after successful submission.
+                    </div>
+
+                </div>
+
+
+                <button type="submit">
+                    Track Complaint
+                </button>
+
+            </form>
+
+
+            <a href="/" class="back">
+                ← Back to Student Portal
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
