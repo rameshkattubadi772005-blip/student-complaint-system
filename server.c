@@ -2,12 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <winsock2.h>
-#include <windows.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <errno.h>
 
-#pragma comment(lib, "ws2_32.lib")
+typedef int SOCKET;
+#define INVALID_SOCKET (-1)
+#define SOCKET_ERROR (-1)
+#define SD_BOTH SHUT_RDWR
+#define closesocket close
 
-#define PORT 8080
+#define DEFAULT_PORT 8080
 
 #define LOW 1
 #define MEDIUM 2
@@ -872,7 +880,7 @@ void generateSessionToken(
         (unsigned int)time(NULL),
         (unsigned int)rand(),
         sessionCounter++,
-        (unsigned int)GetTickCount()
+        (unsigned int)clock()
     );
 }
 
@@ -3456,31 +3464,28 @@ void freeMemory(void)
 
 int main(void)
 {
-    WSADATA wsa;
+    const char *portText = getenv("PORT");
+    int port = DEFAULT_PORT;
 
-    if (
-        WSAStartup(
-            MAKEWORD(2, 2),
-            &wsa
-        ) != 0
-    )
+    if (portText != NULL && portText[0] != '\0')
     {
-        printf("WSAStartup failed.\n");
-        return 1;
-    }
+        int parsedPort = atoi(portText);
 
+        if (parsedPort > 0 && parsedPort <= 65535)
+        {
+            port = parsedPort;
+        }
+    }
 
     srand(
         (unsigned int)(
             time(NULL) ^
-            GetTickCount()
+            (unsigned int)clock()
         )
     );
 
-
     loadStudentAccounts();
     loadComplaints();
-
 
     SOCKET serverSocket =
         socket(
@@ -3491,13 +3496,18 @@ int main(void)
 
     if (serverSocket == INVALID_SOCKET)
     {
-        printf("Socket creation failed.\n");
-
-        WSACleanup();
-
+        perror("Socket creation failed");
         return 1;
     }
 
+    int reuse = 1;
+    setsockopt(
+        serverSocket,
+        SOL_SOCKET,
+        SO_REUSEADDR,
+        &reuse,
+        sizeof(reuse)
+    );
 
     struct sockaddr_in serverAddress;
 
@@ -3507,15 +3517,9 @@ int main(void)
         sizeof(serverAddress)
     );
 
-    serverAddress.sin_family =
-        AF_INET;
-
-    serverAddress.sin_addr.s_addr =
-        INADDR_ANY;
-
-    serverAddress.sin_port =
-        htons(PORT);
-
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    serverAddress.sin_port = htons((unsigned short)port);
 
     if (
         bind(
@@ -3525,15 +3529,10 @@ int main(void)
         ) == SOCKET_ERROR
     )
     {
-        printf("Bind failed.\n");
-
+        perror("Bind failed");
         closesocket(serverSocket);
-
-        WSACleanup();
-
         return 1;
     }
-
 
     if (
         listen(
@@ -3542,38 +3541,30 @@ int main(void)
         ) == SOCKET_ERROR
     )
     {
-        printf("Listen failed.\n");
-
+        perror("Listen failed");
         closesocket(serverSocket);
-
-        WSACleanup();
-
         return 1;
     }
-
 
     printf("\n");
     printf("========================================\n");
     printf(" Student Complaint Prioritization System\n");
     printf("========================================\n");
-    printf("Server running on port %d\n", PORT);
-    printf("Open: http://localhost:%d/login\n", PORT);
+    printf("Server running on port %d\n", port);
+    printf("Open: http://localhost:%d/login\n", port);
     printf("\n");
     printf("Student Login:\n");
     printf("Registered students can use their own account.\n");
-    printf("New students: http://localhost:%d/register\n", PORT);
+    printf("New students: http://localhost:%d/register\n", port);
     printf("\n");
     printf("Admin Login:\n");
     printf("admin / admin123\n");
     printf("========================================\n\n");
 
-
     while (1)
     {
         struct sockaddr_in clientAddress;
-
-        int clientLength =
-            sizeof(clientAddress);
+        socklen_t clientLength = sizeof(clientAddress);
 
         SOCKET client =
             accept(
@@ -3587,9 +3578,7 @@ int main(void)
             continue;
         }
 
-
         handleClient(client);
-
 
         shutdown(
             client,
@@ -3599,12 +3588,8 @@ int main(void)
         closesocket(client);
     }
 
-
     freeMemory();
-
     closesocket(serverSocket);
-
-    WSACleanup();
 
     return 0;
 }
